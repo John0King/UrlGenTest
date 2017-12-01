@@ -1,0 +1,72 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html>
+<head>
+
+</head>
+<body>
+    <fieldset>
+        <legend>Test Urls</legend>
+
+        <a asp-action="Index" asp-controller="Home" asp-area="Admin">go to admin area</a> <br />
+        <a  asp-action="Index" asp-controller="Home" asp-area="">go to empty area</a> <br />
+    </fieldset>
+    
+
+
+    <fieldset>
+        <legend>Show Path</legend>
+        <p>
+            @{
+                string area = ViewContext.RouteData.Values["area"]?.ToString();
+            }
+            @if(string.IsNullOrEmpty(area))
+            {
+                <span>you are in <strong>empty</strong> area</span>
+            }
+            else
+            {
+                <span>you are in <strong>@area</strong> area</span>
+            }
+        </p>
+        <table border="1">
+            <tr>
+                <th>Wrong </th>
+                <th>Right</th>
+            </tr>
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="News">default area</a> : @Url.Action("Index","News") <br />
+                </td>
+                <td>
+                    <a asp-action="Index" asp-controller="News2">default area</a> : @Url.Action("Index","News2") <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="News" asp-area="">without area</a> : @Url.Action("Index","News",new { area= ""}) <br />
+                </td>
+                <td>
+                    <a asp-action="Index" asp-controller="News2" asp-area="">without area</a> : @Url.Action("Index","News2",new { area= ""}) <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="News" asp-area="Admin">with area</a>: @Url.Action("Index","News",new { area="Admin" }) <br />
+                </td>
+                <td>
+                    <a asp-action="Index" asp-controller="News2" asp-area="Admin">with area</a>: @Url.Action("Index","News2",new { area="Admin" }) <br />
+                </td>
+            </tr>
+        </table>
+      
+        
+        
+        
+
+       
+    </fieldset>
+</body>
+</html>
