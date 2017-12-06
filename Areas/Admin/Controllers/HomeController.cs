@@ -9,7 +9,7 @@ namespace AppTest.Areas.Admin.Controllers
     [Area(nameof(Admin))]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int? x)
         {
             return View("NewsTest");
         }

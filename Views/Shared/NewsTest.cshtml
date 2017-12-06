@@ -63,10 +63,59 @@
         </table>
       
         
-        
+        <table border="1">
+            <tr>
+                <th>RouteData.Values：</th>
+                <td>
+                    @ShowDic(ViewContext.RouteData.Values)
+                </td>
+            </tr>
+            <tr>
+                <th>RouteData.Routes</th>
+                <td>
+                    @foreach(var r in ViewContext.RouteData.Routers)
+                    {
+                        var dic = new Microsoft.AspNetCore.Routing.RouteValueDictionary();
+                        dic["Controller"] = "News";
+                        dic["Action"] = "Index";
+                        var dic2 = new Microsoft.AspNetCore.Routing.RouteValueDictionary();
+                        dic2["Action"] = "Index";
+                    <p>
+                        @r : @r.GetVirtualPath(new Microsoft.AspNetCore.Routing.VirtualPathContext(Context, ViewContext.RouteData.Values, dic))?.VirtualPath
+                        |:@r.GetVirtualPath(new Microsoft.AspNetCore.Routing.VirtualPathContext(Context, ViewContext.RouteData.Values, dic2))?.VirtualPath
+                    </p>
+
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>ActionContext.ActionDescriptor.RouteValues</th>
+                <td>
+                    @ShowDic(Url.ActionContext.ActionDescriptor.RouteValues)
+                </td>
+            </tr>
+        </table>
         
 
        
     </fieldset>
 </body>
 </html>
+@functions {
+    public string ShowDic<Tkey,Tvalue>(IEnumerable<KeyValuePair<Tkey, Tvalue>> dic)
+    {
+
+        if(dic == null || dic.Count() == 0)
+        {
+            return string.Empty;
+        }
+        var sb = new System.Text.StringBuilder();
+        foreach(var x in dic)
+        {
+            sb.Append("&");
+            sb.AppendJoin("=", new string[] { x.Key?.ToString(), x.Value?.ToString() });
+        }
+
+        return sb.ToString().TrimStart('&');
+    }
+}
